@@ -101,6 +101,21 @@ services:
             - basic-auth-user
             - basic-auth-password
 
+    # Open Policy Agent
+    opa:
+        image: openpolicyagent/opa:latest
+        command:
+              - "run"
+              - "--server"
+              - "--log-level=debug"
+              - "/openfaas_authz.rego"
+        volumes:
+            - "./opa/example.rego:/openfaas_authz.rego"
+        networks:
+            - functions
+        ports:
+            - 8181:8181
+
     nats:
         image: nats-streaming:0.11.2
         # Uncomment the following port mappings if you wish to expose the
